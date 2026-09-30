@@ -1,4 +1,4 @@
-# Auto detect text files and normalize them to LF line endings on checkin.
+# Auto detect text files and normalize them to LF line endings on checkin. 
 * text=auto eol=lf
 
 # --- R package source: force LF explicitly (these are always text) -------
