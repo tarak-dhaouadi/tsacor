@@ -489,7 +489,7 @@ plot.tsa_cor <- function(x, legend = TRUE, caption = TRUE,
   ## which the observed accrued statistical information reached DARIS_info
   ## (see tsa_cor(), Section 7b). Added separately, and only when DARIS has
   ## actually been reached, so it is never confused with the theoretical
-  ## event-equivalent line above -- both are shown, distinctly labelled,
+  ## participant-equivalent line above -- both are shown, distinctly labelled,
   ## per the package's documented "observed inverse-variance information"
   ## criterion.
   if (show_info_threshold_marker) {
@@ -531,7 +531,7 @@ plot.tsa_cor <- function(x, legend = TRUE, caption = TRUE,
 
   ## Analysis route, endpoint NOT yet reached in the observed data (typically
   ## design_R > 1): mark where the formal boundaries terminate, i.e. the
-  ## theoretical event-equivalent of design_R x DARIS. Analogous to the
+  ## theoretical participant-equivalent of design_R x DARIS. Analogous to the
   ## theoretical DARIS line; the label says explicitly that it is not reached.
   if (show_endpoint_theoretical) {
     p <- p +
