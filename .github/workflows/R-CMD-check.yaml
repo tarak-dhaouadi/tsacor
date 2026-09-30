@@ -1,4 +1,4 @@
-# CI workflow for tsahr, generated from the current r-lib/actions
+# CI workflow for tsacor, generated from the current r-lib/actions
 # "check-standard" template (https://github.com/r-lib/actions).
 #
 # Deliberately does NOT pin literal R versions (e.g. "3.6.3"): old R
@@ -7,7 +7,7 @@
 # response: 404" failure. Using the {oldrel-1, release, devel} keywords
 # instead lets setup-r resolve to whatever those actually mean today.
 # This package requires R >= 4.0.0 (see DESCRIPTION), so testing against
-# anything as old as 3.6.3 was never meaningful for tsahr anyway.
+# anything as old as 3.6.3 was never meaningful for tsacor anyway.
 #
 # All actions are pinned to their current major-version tags (not old
 # commit SHAs), which resolves the Node.js 20 deprecation warning and the
