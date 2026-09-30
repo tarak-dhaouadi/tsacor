@@ -1,0 +1,35 @@
+# R build/session artifacts
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+*.Rcheck/
+*.tar.gz
+*.Rout
+*.Rout.save
+inst/doc
+docs/
+
+# Vignette build byproducts
+vignettes/*.html
+vignettes/*.R
+vignettes/*.pdf
+
+# CRAN / release workflow byproducts
+CRAN-RELEASE
+revdep/
+*.Rproj
+
+# Credentials / tokens that should never be committed
+.httr-oauth
+.Renviron
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS cruft
+.DS_Store
+Thumbs.db
