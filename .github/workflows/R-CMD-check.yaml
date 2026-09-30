@@ -1,0 +1,69 @@
+# CI workflow for tsahr, generated from the current r-lib/actions
+# "check-standard" template (https://github.com/r-lib/actions).
+#
+# Deliberately does NOT pin literal R versions (e.g. "3.6.3"): old R
+# releases are periodically removed from the download mirrors GitHub
+# Actions uses, which is exactly what caused the "Unexpected HTTP
+# response: 404" failure. Using the {oldrel-1, release, devel} keywords
+# instead lets setup-r resolve to whatever those actually mean today.
+# This package requires R >= 4.0.0 (see DESCRIPTION), so testing against
+# anything as old as 3.6.3 was never meaningful for tsahr anyway.
+#
+# All actions are pinned to their current major-version tags (not old
+# commit SHAs), which resolves the Node.js 20 deprecation warning and the
+# deprecated `set-output` warning -- both were caused by the workflow
+# being pinned to an old r-lib/actions commit that predates their
+# Node 24 / environment-files migration.
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+name: R-CMD-check
+
+jobs:
+  R-CMD-check:
+    runs-on: ${{ matrix.config.os }}
+
+    name: ${{ matrix.config.os }} (R ${{ matrix.config.r }})
+
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - {os: macos-latest,   r: 'release'}
+          - {os: windows-latest, r: 'release'}
+          - {os: ubuntu-latest,  r: 'devel', http-user-agent: 'release'}
+          - {os: ubuntu-latest,  r: 'release'}
+          - {os: ubuntu-latest,  r: 'oldrel-1'}
+
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+      R_KEEP_PKG_SOURCE: yes
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: ${{ matrix.config.r }}
+          http-user-agent: ${{ matrix.config.http-user-agent }}
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          cache-version: 3
+          pak-version: devel
+          extra-packages: |
+            any::rcmdcheck
+            metafor=?source
+          needs: check
+
+      - uses: r-lib/actions/check-r-package@v2
+        with:
+          upload-snapshots: true
+          build_args: 'c("--no-manual", "--compact-vignettes=gs+qpdf")'

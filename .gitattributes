@@ -1,2 +1,39 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+# Auto detect text files and normalize them to LF line endings on checkin.
+* text=auto eol=lf
+
+# --- R package source: force LF explicitly (these are always text) -------
+*.R         text eol=lf
+*.r         text eol=lf
+*.Rmd       text eol=lf
+*.Rd        text eol=lf
+*.Rnw       text eol=lf
+*.md        text eol=lf diff=markdown
+*.markdown  text eol=lf diff=markdown
+DESCRIPTION text eol=lf
+NAMESPACE   text eol=lf
+LICENSE     text eol=lf
+.gitignore    text eol=lf
+.gitattributes text eol=lf
+
+# --- Binary/data files: NEVER let Git touch line endings in these --------
+# (this is what typically causes GitHub/Windows checkouts to corrupt or
+# spuriously "modify" spreadsheet/image files, and floods `git add`/
+# `git commit` with "LF will be replaced by CRLF" warnings)
+*.xlsx  binary
+*.xls   binary
+*.rda   binary
+*.RData binary
+*.rds   binary
+*.pdf   binary
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.zip   binary
+*.tar.gz binary
+
+# Exclude auxiliary/generated files from GitHub's linguist language stats
+# and from repository language detection, so the repo shows as R rather
+# than being skewed by generated docs/artifacts.
+inst/doc/**    linguist-generated=true
+docs/**        linguist-generated=true
