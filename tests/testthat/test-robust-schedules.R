@@ -24,7 +24,7 @@ user37 <- c(0.02538682, 0.05287274, 0.07337192, 0.10764900, 0.12546251,
             0.82711975, 0.85460567, 0.87510485, 0.90938192, 0.92719543,
             0.96514589, 0.98851592)
 
-test_that("real 37-look (40-study, target HR 0.94) schedule: design route calibrates", {
+test_that("real 37-look (40-study, target correlation 0.94) schedule: design route calibrates", {
   des <- tsacor:::.rtsa_design_bounds(user37, alpha = 0.05, beta = 0.20)
   expect_equal(length(des$timing), 38L)
   expect_equal(des$root, 1.227781, tolerance = 2e-5)

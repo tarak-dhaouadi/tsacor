@@ -463,7 +463,7 @@
   ## node lands outside [za[i], zb[i]], `xi` can collapse to a single
   ## point (or, in principle, zero). That is a real edge case in this
   ## port (observed with the package's own example data under
-  ## target_HR = NA / the circular-target scenario), not merely a
+  ## target_r = NA / the circular-target scenario), not merely a
   ## translation slip: RTSA's own R source has the identical unguarded
   ## seq(1, length(xi) - 1, 1) pattern below, which throws "wrong sign
   ## in 'by' argument" for length(xi) <= 1 rather than the empty
@@ -694,7 +694,7 @@
 ## stay below zb[i], and the sentinel/0 cases were not observed to
 ## collide with any realistic zb[i] in testing, but are clamped too for
 ## uniformity and future-proofing rather than relying on that holding.
-## The observed failure mode (package example data, target_HR = NA) was
+## The observed failure mode (package example data, target_r = NA) was
 ## the .rtsa2_searchfunc() branch returning a value that landed at or
 ## past zb[i] at a late look, where the non-binding futility boundary is
 ## expected to approach the efficacy boundary closely by design (they
@@ -901,7 +901,7 @@
   stop(
     "Non-binding futility boundaries could not be computed (the RTSA-style ",
     "information-scale root search did not converge). Consider setting a ",
-    "different target_HR/power, or treat the futility band as unavailable ",
+    "different target_r/power, or treat the futility band as unavailable ",
     "for this design."
   )
 }
