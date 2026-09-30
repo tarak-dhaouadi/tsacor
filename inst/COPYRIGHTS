@@ -1,0 +1,54 @@
+tsacor -- copyright and licensing
+===============================
+
+tsacor is distributed under the GNU General Public License, version 2 or (at
+your option) any later version (GPL (>= 2)); see the License field of
+DESCRIPTION. The package contains code ported from the R package RTSA, itself
+licensed GPL (>= 2), and the boundary engine it reuses was inherited from the
+sister package tsahr (same maintainer), which is licensed the same way.
+
+Copyright holders
+-----------------
+* Tarak Dhaouadi -- tsacor (the package, its interface, statistics layer for
+  correlations on Fisher's z scale, tests and documentation, and the
+  adaptation of the code listed below, first inherited via tsahr).
+* Anne Lyngholm Soerensen, Markus Harboe Olsen, Theis Lange and Christian
+  Gluud -- the R package RTSA 0.2.2 (GPL (>= 2)), the algorithms and code of
+  which the files listed below are derived from.
+
+Files derived from RTSA
+-----------------------
+* src/rtsa_core.h, src/rtsa_engine.cpp, src/RcppExports.cpp -- C++ port of
+  RTSA's recursive-integration boundary engine (first.cpp: init_int(),
+  recur_int(), prob(); R/RTSA_helperfunctions.R: z_n_w(), searchfunc(),
+  alpha_boundary(), beta_boundary(), esOF(), sd_inf()).
+* R/rtsa_engine.R -- R orchestration reproducing RTSA's boundaries() design and
+  analysis routes (information-scale root searches, rm_bs handling).
+* R/obf_boundaries.R -- the earlier pure-R reconstruction of the same
+  engines (legacy fallback), written from RTSA's sources.
+* The boundary-computation section of R/tsa_cor.R (the calls into the engine
+  and the design/analysis-route orchestration) -- ported from tsahr's tsa_hr(),
+  itself following RTSA's boundaries()/RTSA() routes.
+* inst/extdata/rtsa_0.2.2_reference.R -- numbers printed by RTSA 0.2.2, kept
+  as a test reference.
+
+Origin of RTSA
+--------------
+RTSA is the R version of Trial Sequential Analysis (TSA), originally
+developed as a stand-alone Java program by the Copenhagen Trial Unit. The RTSA
+manual is heavily inspired by the user manual for TSA by Kristian Thorlund,
+Janus Engstroem, Joern Wetterslev, Jesper Brok, Georgina Imberger and
+Christian Gluud. The original TSA software: https://ctu.dk/tools
+
+  Copenhagen Trial Unit
+  Centre for Clinical Intervention Research
+  Department 3344, Rigshospitalet
+  DK-2100 Copenhagen O, Denmark
+  Tel. +45 3545 7171   Fax +45 3545 7101   E-mail: tsa@ctu.dk
+
+Origin within tsacor
+------------------
+tsacor inherits the engine (and the documentation of its reverse engineering,
+inst/REVERSE_ENGINEERING_RTSA.md) unchanged from tsahr 0.2.8.17. Version
+numbers such as "0.2.7.13" in code comments and in that document refer to the
+development history of tsahr.

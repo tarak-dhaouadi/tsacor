@@ -1,0 +1,43 @@
+citHeader("To cite tsacor in publications, please cite the software itself, and consider also citing the methodology papers it implements and the RTSA package whose boundary engine it uses:")
+
+bibentry(
+  bibtype  = "Manual",
+  title    = "tsacor: Trial Sequential Analysis for Meta-Analyses of Correlations",
+  author   = person("Tarak", "Dhaouadi"),
+  year     = format(Sys.Date(), "%Y"),
+  note     = "R package",
+  url      = "https://github.com/tarak-dhaouadi/tsacor"
+)
+
+bibentry(
+  bibtype  = "Article",
+  title    = "Estimating required information size by quantifying diversity in random-effects model meta-analyses",
+  author   = c(person("J", "Wetterslev"), person("K", "Thorlund"),
+               person("J", "Brok"), person("C", "Gluud")),
+  journal  = "BMC Medical Research Methodology",
+  year     = "2009",
+  volume   = "9",
+  pages    = "86",
+  doi      = "10.1186/1471-2288-9-86"
+)
+
+bibentry(
+  bibtype  = "Article",
+  title    = "Sample size requirements for estimating Pearson, Kendall and Spearman correlations",
+  author   = c(person("D G", "Bonett"), person("T A", "Wright")),
+  journal  = "Psychometrika",
+  year     = "2000",
+  volume   = "65",
+  number   = "1",
+  pages    = "23--28",
+  doi      = "10.1007/BF02294183"
+)
+
+bibentry(
+  bibtype  = "Manual",
+  title    = "RTSA: Trial Sequential Analysis",
+  author   = c(person("Anne", "Lyngholm Soerensen"), person("Markus", "Harboe Olsen"),
+               person("Theis", "Lange"), person("Christian", "Gluud")),
+  note     = "R package",
+  url      = "https://CRAN.R-project.org/package=RTSA"
+)

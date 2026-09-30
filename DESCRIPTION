@@ -1,0 +1,58 @@
+Package: tsacor
+Type: Package
+Title: Trial Sequential Analysis for Meta-Analyses of Correlations
+Version: 0.1.0
+Authors@R: c(
+    person("Tarak", "Dhaouadi", email = "dhaouaditarak@yahoo.fr", role = c("aut", "cre")),
+    person("Anne", "Lyngholm Soerensen", role = c("ctb", "cph"),
+           comment = "author of the RTSA package, from which the boundary engine is ported"),
+    person("Markus", "Harboe Olsen", role = c("ctb", "cph"),
+           comment = "author of the RTSA package, from which the boundary engine is ported"),
+    person("Theis", "Lange", role = c("ctb", "cph"),
+           comment = "author of the RTSA package, from which the boundary engine is ported"),
+    person("Christian", "Gluud", role = c("ctb", "cph"),
+           comment = "author of the RTSA package, from which the boundary engine is ported"))
+Author: Tarak Dhaouadi [aut, cre],
+  Anne Lyngholm Soerensen [ctb, cph] (author of the RTSA package, from which
+    the boundary engine is ported),
+  Markus Harboe Olsen [ctb, cph] (author of the RTSA package, from which the
+    boundary engine is ported),
+  Theis Lange [ctb, cph] (author of the RTSA package, from which the
+    boundary engine is ported),
+  Christian Gluud [ctb, cph] (author of the RTSA package, from which the
+    boundary engine is ported)
+Description: Performs Trial Sequential Analysis (TSA) for meta-analyses of
+    Pearson product-moment correlations and Spearman rank correlations pooled
+    on Fisher's z scale. Study-level correlations are transformed with
+    atanh(), their standard errors are taken from the reported confidence
+    intervals or from the sample sizes (with the Fieller-Hartley-Pearson or
+    Bonett-Wright variance models for Spearman's rho), and the required
+    information size is corrected for heterogeneity with the Diversity
+    (D-squared) adjustment of Wetterslev et al. (2009). O'Brien-Fleming-type
+    alpha- and beta-spending trial sequential monitoring boundaries are
+    computed at the inverse-variance information based on the observed
+    study-level standard errors of Fisher's z, via a compiled (C++) recursive
+    numerical integration engine ported from the R package 'RTSA' (Soerensen,
+    Olsen, Lange and Gluud; an R implementation of the Trial Sequential
+    Analysis software of the Copenhagen Trial Unit, <https://ctu.dk/tools>),
+    with no fixed software-imposed limit on the number of looks (subject to
+    available computational resources). Produces a cumulative Z-curve plot
+    against the cumulative number of participants with efficacy, futility,
+    and conventional significance boundaries. The engine is shared with the
+    sister package 'tsahr' for hazard ratios. Methodology follows Wetterslev
+    et al. (2009) <doi:10.1186/1471-2288-9-86>.
+License: GPL (>= 2)
+Copyright: inst/COPYRIGHTS
+Encoding: UTF-8
+Depends: R (>= 4.0.0)
+Imports: metafor, readxl, ggplot2 (>= 3.4.0), stats, utils, Rcpp (>=
+        1.0.0)
+LinkingTo: Rcpp
+Suggests: testthat (>= 3.0.0), RTSA
+Config/testthat/edition: 3
+URL: https://github.com/tarak-dhaouadi/tsacor
+BugReports: https://github.com/tarak-dhaouadi/tsacor/issues
+NeedsCompilation: yes
+Config/roxygen2/version: 8.1.0
+Maintainer: Tarak Dhaouadi <dhaouaditarak@yahoo.fr>
+Packaged: 2026-09-29 10:45:00 UTC; tarak
