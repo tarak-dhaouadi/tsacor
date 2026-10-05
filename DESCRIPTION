@@ -1,7 +1,7 @@
 Package: tsacor
 Type: Package
 Title: Trial Sequential Analysis for Meta-Analyses of Correlations
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: c(
     person("Tarak", "Dhaouadi", email = "dhaouaditarak@yahoo.fr", role = c("aut", "cre")),
     person("Anne", "Lyngholm Soerensen", role = c("ctb", "cph"),

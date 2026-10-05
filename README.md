@@ -4,6 +4,9 @@ Trial Sequential Analysis (TSA) for meta-analyses of correlations, in R:
 Pearson product-moment correlations (r) and Spearman rank correlations
 (rho), pooled on Fisher's z scale.
 
+**Standalone Java application**
+A standalone Java implementation of `tsacor` is available as [tsacor-java](https://github.com/tarak-dhaouadi/tsacor-java), providing the same TSA methodology without requiring R.
+
 Adapts the classical Wetterslev/Thorlund/Copenhagen Trial Unit TSA
 framework to correlation coefficients. It's worth distinguishing what's
 established methodology versus what this package specifically contributes:
@@ -86,6 +89,14 @@ line, the pooled random-effects correlation with its 95% CI, the p-value,
 tau² (Fisher z scale) and I². With `boundary_route = "analysis"`, the
 position and size of the "Analysis-route endpoint ... reached" label can be
 set with `endpoint_label_x`, `endpoint_label_y` and `endpoint_label_size`.
+
+By default the four DARIS-related labels (theoretical DARIS, historical-rate
+projection, "DARIS information reached" and analysis-route endpoint) are drawn
+in the upper part of the plot when the final Z-score is negative and in the
+lower part when it is positive, with the "Participants accrued" label on the
+opposite side (over the curve). Use `daris_label_y`, `historical_label_y`,
+`info_threshold_label_y`, `endpoint_label_y` and `participants_label_y` to
+override these defaults.
 
 ### Pearson or Spearman
 

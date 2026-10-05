@@ -224,6 +224,47 @@ test_that("print/summary/plot run without error and plot is a ggplot", {
   expect_s3_class(p, "ggplot")
 })
 
+test_that("plot label placement follows the sign of the final Z-score", {
+  res <- .fit(target_r = 0.10)
+  ## annotate("text", ...) stores `label` in aes_params (not in the layer
+  ## data), while x/y live in the layer data.
+  label_y <- function(p, pattern) {
+    for (ly in p$layers) {
+      lab <- ly$aes_params$label
+      if (is.null(lab) && is.data.frame(ly$data) && "label" %in% names(ly$data))
+        lab <- ly$data$label
+      if (length(lab) >= 1L && is.character(lab) && grepl(pattern, lab[1])) {
+        yy <- ly$data$y
+        if (is.null(yy)) yy <- ly$aes_params$y
+        return(as.numeric(yy[1]))
+      }
+    }
+    NA_real_
+  }
+  place <- function(r) {
+    p <- suppressWarnings(plot(r))
+    c(daris = label_y(p, "^Theoretical DARIS"),
+      accrued = label_y(p, "^Participants accrued"))
+  }
+  pos <- res
+  zz <- pos$cumulative$Z
+  pos$cumulative$Z <- abs(zz)
+  neg <- res
+  neg$cumulative$Z <- -abs(zz)
+  yp <- place(pos)
+  yn <- place(neg)
+  ## Z-curve positive: DARIS label low, participants label high
+  expect_lt(yp[["daris"]], 0)
+  expect_gt(yp[["accrued"]], 0)
+  ## Z-curve negative: DARIS label high, participants label low (unchanged)
+  expect_gt(yn[["daris"]], 0)
+  expect_lt(yn[["accrued"]], 0)
+  ## user-supplied positions still override the defaults
+  p <- suppressWarnings(plot(pos, daris_label_y = 1.5, participants_label_y = -1.5))
+  expect_equal(label_y(p, "^Theoretical DARIS"), 1.5)
+  expect_equal(label_y(p, "^Participants accrued"), -1.5)
+})
+
 test_that("order_by sorts ascending and affects the cumulative trajectory", {
   d <- as.data.frame(readxl::read_excel(.path()))
   reversed <- d[rev(seq_len(nrow(d))), , drop = FALSE]

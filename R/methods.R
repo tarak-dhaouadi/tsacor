@@ -167,7 +167,12 @@ summary.tsa_cor <- function(object, ...) {
 #' @param daris_label_x,daris_label_y Position (in data coordinates: x =
 #'   cumulative participants, y = Z-score) for the theoretical DARIS
 #'   participant-equivalent label. Default \code{NULL} uses the built-in
-#'   position (just right of its vertical line, near the top of the plot).
+#'   position (just right of its vertical line); it is near the top of the
+#'   plot when the final Z-score is negative (or zero) and near the bottom
+#'   when it is positive. The same default rule applies to the other three
+#'   DARIS-related labels (historical-rate, \dQuote{DARIS information
+#'   reached} and analysis-route endpoint), which keep their relative
+#'   stacking order.
 #' @param info_threshold_label_size Font size for the "DARIS information
 #'   reached" label (only shown when DARIS has actually been reached).
 #'   Default \code{3.2}.
@@ -178,7 +183,9 @@ summary.tsa_cor <- function(object, ...) {
 #'   label. Default \code{3.2}.
 #' @param participants_label_x,participants_label_y Position (in data
 #'   coordinates) for the "Participants accrued" label. Default \code{NULL}
-#'   uses the built-in position (bottom right, above the last data point).
+#'   uses the built-in position (right-aligned at the last data point): near
+#'   the bottom of the plot when the final Z-score is negative (or zero), and
+#'   near the top, over the curve, when it is positive.
 #' @param endpoint_label_size Font size for the "Analysis-route endpoint
 #'   (Design_R x DARIS) reached" label (only shown when
 #'   \code{boundary_route = "analysis"}; it is also drawn, worded
@@ -342,6 +349,21 @@ plot.tsa_cor <- function(x, legend = TRUE, caption = TRUE,
   y_abs_max <- max(abs(cumul_df$Z), finite_bounds, na.rm = TRUE)
   y_limit <- y_abs_max * 1.15
 
+  ## Default vertical placement of the labels depends on where the Z-curve
+  ## ends. The four DARIS-related labels (theoretical DARIS, historical-rate
+  ## projection, "DARIS information reached", analysis-route endpoint) sit in
+  ## the UPPER part of the plot when the Z-curve is negative (or zero) and in
+  ## the LOWER part when it is positive, i.e. always on the side away from the
+  ## curve; the "Participants accrued" label takes the opposite side (over
+  ## the curve when it is positive). `daris_sign` = +1 (upper) / -1 (lower);
+  ## the user-supplied *_label_y arguments always override these defaults.
+  z_last <- {
+    zz <- cumul_df$Z[!is.na(cumul_df$Z)]
+    if (length(zz)) zz[length(zz)] else NA_real_
+  }
+  z_positive <- is.finite(z_last) && z_last > 0
+  daris_sign <- if (z_positive) -1 else 1
+
   boundary_line$TSA_boundary_upper <- pmin(boundary_line$TSA_boundary_upper, y_limit)
   boundary_line$TSA_boundary_lower <- pmax(boundary_line$TSA_boundary_lower, -y_limit)
 
@@ -413,7 +435,7 @@ plot.tsa_cor <- function(x, legend = TRUE, caption = TRUE,
                            color = "grey60", linewidth = 0.3) +
     ggplot2::annotate("text",
                        x = if (is.null(participants_label_x)) max(cumul_df$cum_n) else participants_label_x,
-                       y = if (is.null(participants_label_y)) -y_limit * 0.92 else participants_label_y,
+                       y = if (is.null(participants_label_y)) -daris_sign * y_limit * 0.92 else participants_label_y,
                        label = paste0("Participants accrued = ", participants_accrued),
                        hjust = 1, vjust = 0, size = participants_label_size, color = "steelblue4") +
     ggplot2::scale_color_manual(name = NULL, values = line_colors) +
@@ -444,7 +466,7 @@ plot.tsa_cor <- function(x, legend = TRUE, caption = TRUE,
                            linetype = "dotted", linewidth = 0.6) +
       ggplot2::annotate("text",
                          x = if (is.null(daris_label_x)) DARIS_participants else daris_label_x,
-                         y = if (is.null(daris_label_y)) y_limit * 0.92 else daris_label_y,
+                         y = if (is.null(daris_label_y)) daris_sign * y_limit * 0.92 else daris_label_y,
                          label = paste0("Theoretical DARIS participant-equivalent ~ ", ceiling(DARIS_participants)),
                          hjust = -0.05, vjust = 0, size = daris_label_size)
   }
@@ -476,7 +498,7 @@ plot.tsa_cor <- function(x, legend = TRUE, caption = TRUE,
                          x = if (is.null(historical_label_x)) historical_target_participants
                              else historical_label_x,
                          y = if (is.null(historical_label_y)) {
-                               y_limit * (if (analysis_route) 0.41 else 0.75)
+                               daris_sign * y_limit * (if (analysis_route) 0.41 else 0.75)
                              } else historical_label_y,
                          label = hist_label,
                          hjust = -0.05, vjust = 0,
@@ -499,7 +521,7 @@ plot.tsa_cor <- function(x, legend = TRUE, caption = TRUE,
       ggplot2::annotate("text",
                          x = if (is.null(info_threshold_label_x)) DARIS_info_threshold_n
                              else info_threshold_label_x,
-                         y = if (is.null(info_threshold_label_y)) y_limit * 0.75
+                         y = if (is.null(info_threshold_label_y)) daris_sign * y_limit * 0.75
                              else info_threshold_label_y,
                          label = paste0("DARIS information reached ~ ",
                                         ceiling(DARIS_info_threshold_n), " participants (est.)"),
@@ -517,7 +539,7 @@ plot.tsa_cor <- function(x, legend = TRUE, caption = TRUE,
       ggplot2::annotate("text",
                          x = if (is.null(endpoint_label_x)) route_endpoint_n
                              else endpoint_label_x,
-                         y = if (is.null(endpoint_label_y)) y_limit * 0.58
+                         y = if (is.null(endpoint_label_y)) daris_sign * y_limit * 0.58
                              else endpoint_label_y,
                          label = paste0("Analysis-route endpoint (",
                                         sprintf("%.3f", route_endpoint),
@@ -540,7 +562,7 @@ plot.tsa_cor <- function(x, legend = TRUE, caption = TRUE,
       ggplot2::annotate("text",
                          x = if (is.null(endpoint_label_x)) endpoint_theoretical_participants
                              else endpoint_label_x,
-                         y = if (is.null(endpoint_label_y)) y_limit * 0.58
+                         y = if (is.null(endpoint_label_y)) daris_sign * y_limit * 0.58
                              else endpoint_label_y,
                          label = paste0("Analysis-route endpoint (",
                                         sprintf("%.3f", route_endpoint),

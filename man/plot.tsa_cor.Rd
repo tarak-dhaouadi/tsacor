@@ -77,7 +77,12 @@ participant-equivalent" label. Default \code{3.2}.}
 \item{daris_label_x, daris_label_y}{Position (in data coordinates: x =
 cumulative participants, y = Z-score) for the theoretical DARIS
 participant-equivalent label. Default \code{NULL} uses the built-in
-position (just right of its vertical line, near the top of the plot).}
+position (just right of its vertical line); it is near the top of the
+plot when the final Z-score is negative (or zero) and near the bottom
+when it is positive. The same default rule applies to the other three
+DARIS-related labels (historical-rate, \dQuote{DARIS information
+reached} and analysis-route endpoint), which keep their relative
+stacking order.}
 
 \item{info_threshold_label_size}{Font size for the "DARIS information
 reached" label (only shown when DARIS has actually been reached).
@@ -92,7 +97,9 @@ label. Default \code{3.2}.}
 
 \item{participants_label_x, participants_label_y}{Position (in data
 coordinates) for the "Participants accrued" label. Default \code{NULL}
-uses the built-in position (bottom right, above the last data point).}
+uses the built-in position (right-aligned at the last data point): near
+the bottom of the plot when the final Z-score is negative (or zero), and
+near the top, over the curve, when it is positive.}
 
 \item{endpoint_label_size}{Font size for the "Analysis-route endpoint
 (Design_R x DARIS) reached" label (only shown when

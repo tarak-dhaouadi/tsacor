@@ -1,3 +1,16 @@
+# tsacor 0.1.1
+
+* `plot.tsa_cor()`: the default vertical placement of the labels now depends on
+  the sign of the final cumulative Z-score. When the Z-curve is positive, the
+  four DARIS-related labels (theoretical DARIS participant-equivalent,
+  historical-rate projection, "DARIS information reached" and analysis-route
+  endpoint) are placed in the lower part of the plot and the "Participants
+  accrued" label over the curve in the upper part; when the Z-curve is negative
+  (or zero) the placement is unchanged (DARIS labels in the upper part,
+  "Participants accrued" in the lower part). These are defaults only: the
+  `daris_label_y`, `info_threshold_label_y`, `endpoint_label_y`,
+  `historical_label_y` and `participants_label_y` arguments still override them.
+
 # tsacor 0.1.0
 
 * First release of tsacor: Trial Sequential Analysis for meta-analyses of
